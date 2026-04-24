@@ -29,38 +29,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
         
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
         with:
           install: true
 
       - name: Cache Docker layers
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: ${{ runner.os }}-buildx-
 
       - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Log in to AliYun Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: registry.cn-hangzhou.aliyuncs.com
           username: ${{ secrets.ALIREGISTRY_USERNAME }}
@@ -68,7 +68,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker chat-api-admin
         id: meta1
-        uses: docker/metadata-action@v4.6.0
+        uses: docker/metadata-action@v6.0.0
         with:
           images: |
             ghcr.io/openimsdk/chat-api-admin
@@ -76,7 +76,7 @@ jobs:
             registry.cn-hangzhou.aliyuncs.com/openimsdk/chat-api-admin
 
       - name: Build and push Docker image for chat-api-admin
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./build/images/api-admin/Dockerfile
@@ -87,7 +87,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker chat-api-chat
         id: meta2
-        uses: docker/metadata-action@v4.6.0
+        uses: docker/metadata-action@v6.0.0
         with:
           images: |
             ghcr.io/openimsdk/chat-api-chat
@@ -95,7 +95,7 @@ jobs:
             registry.cn-hangzhou.aliyuncs.com/openimsdk/chat-api-chat
 
       - name: Build and push Docker image for chat-api-chat
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./build/images/api-chat/Dockerfile
@@ -106,7 +106,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker chat-rpc-admin
         id: meta3
-        uses: docker/metadata-action@v4.6.0
+        uses: docker/metadata-action@v6.0.0
         with:
           images: |
             ghcr.io/openimsdk/chat-rpc-admin
@@ -114,7 +114,7 @@ jobs:
             registry.cn-hangzhou.aliyuncs.com/openimsdk/chat-rpc-admin
 
       - name: Build and push Docker image for chat-rpc-admin
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./build/images/rpc-admin/Dockerfile
@@ -125,7 +125,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker chat-rpc-chat
         id: meta4
-        uses: docker/metadata-action@v4.6.0
+        uses: docker/metadata-action@v6.0.0
         with:
           images: |
             ghcr.io/openimsdk/chat-rpc-chat
@@ -133,7 +133,7 @@ jobs:
             registry.cn-hangzhou.aliyuncs.com/openimsdk/chat-rpc-chat
 
       - name: Build and push Docker image for chat-rpc-chat
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./build/images/rpc-chat/Dockerfile
